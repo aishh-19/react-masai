@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      function App() {
+        const [val, setVal] = React.useState('');
+
+        function change(e) {
+          setVal(e.target.value);
+        }
+
+        function isValidHex(hex) {
+          return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
+        }
+
+        const backgroundColor = isValidHex(val) ? val : 'transparent';
+
+        return (
+          <React.Fragment>
+            <input
+              type="text"
+              value={val}
+              onChange={change}
+              placeholder="#FFFFFF"
+            />
+            <div
+              style={{
+                marginTop: '20px',
+                width: '100px',
+                height: '100px',
+                border: '2px solid black',
+                backgroundColor: backgroundColor,
+              }}
+            ></div>
+          </React.Fragment>
+        );
+      }
+
+      const rootElement = document.getElementById('root');
+      const ReactRoot = ReactDOM.createRoot(rootElement);
+      ReactRoot.render(<App />);
+    </script>
+  </body>
+</html>
