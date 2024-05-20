@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hobby Form</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function App() {
+      const [hobbies, setHobbies] = React.useState([""]);
+
+      const handleChange = (e, index) => {
+        const newHobbies = [...hobbies];
+        newHobbies[index] = e.target.value;
+        setHobbies(newHobbies);
+      };
+
+      const addHobby = () => setHobbies([...hobbies, ""]);
+
+      const removeHobby = (index) => {
+        if (hobbies.length > 1) {
+          setHobbies(hobbies.filter((_, i) => i !== index));
+        }
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(hobbies);
+      };
+
+      return (
+        <form onSubmit={handleSubmit}>
+          {hobbies.map((hobby, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                value={hobby}
+                onChange={(e) => handleChange(e, index)}
+                placeholder={`Hobby ${index + 1}`}
+              />
+              {index > 0 && (
+                <button type="button" onClick={() => removeHobby(index)}>
+                  Remove
+                </button>
+              )}
+            </div>
+          ))}
+          <button type="button" onClick={addHobby}>
+            Add Hobby
+          </button>
+          <button type="submit" style={{ marginTop: '20px' }}>
+            Submit
+          </button>
+        </form>
+      );
+    }
+
+    const rootElement = document.getElementById("root");
+    ReactDOM.createRoot(rootElement).render(<App />);
+  </script>
+</html>
