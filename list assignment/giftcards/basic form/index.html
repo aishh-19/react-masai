@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .form{
+border: 2px solid black;
+text-align: center;
+background-color: rgb(207, 238, 238);
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+  
+  
+
+    
+    function App(){
+        const [val, setVal] = React.useState({name: "" , age: "" , proffession : "" , amount:""})
+        
+function handler(e){
+    e.preventDefault()
+    console.log(val)
+    setVal({
+                name: "", 
+                age: "", 
+                proffession: "", 
+                amount: ""
+            });
+}
+function values(event){
+const{name , value} = event.target;
+setVal(prevVAl =>({
+    ...prevVAl , 
+    [name] : value
+
+}))
+}
+    return(
+        <form action="" className = "form" onSubmit = {handler} >
+            <p>Name</p><input type="text" name="name" id="" value = {val.name} onChange = {values}/>
+            <p>age</p><input type="number" name="age" id=""  value ={val.age} onChange = {values}/>
+            <p>proffession</p><input type="text" name="proffession" id="" value = {val.proffession} onChange = {values}/>
+            <p>amount</p><input type="number" name="amount" id="" value = {val.amount} onChange = {values}/><br/>
+            <button type = "submit">Submit</button>
+            </form>
+    )}
+let ReactRoot =  ReactDOM.createRoot(document.getElementById("root"))
+ReactRoot.render(<App/>)
+    
+    </script>
