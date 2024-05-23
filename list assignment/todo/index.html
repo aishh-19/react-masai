@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .todo-list {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .todo-list h2 {
+            text-align: center;
+        }
+        .todo-list form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .todo-list form input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .todo-list form button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #fff;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .todo-item.completed span {
+            text-decoration: line-through;
+        }
+        .todo-item button {
+            background: #ff4c4c;
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function ToDoList() {
+            const [items, setItems] = React.useState([]);
+            const [newItem, setNewItem] = React.useState("");
+
+            const handleAddItem = (e) => {
+                e.preventDefault();
+                if (newItem.trim()) {
+                    setItems([...items, { text: newItem, completed: false }]);
+                    setNewItem("");
+                }
+            };
+
+            const handleDeleteItem = (index) => {
+                const newItems = items.filter((_, i) => i !== index);
+                setItems(newItems);
+            };
+
+            const handleToggleComplete = (index) => {
+                const newItems = items.map((item, i) => {
+                    if (i === index) {
+                        return { ...item, completed: !item.completed };
+                    }
+                    return item;
+                });
+                setItems(newItems);
+            };
+
+            return (
+                <div className="todo-list">
+                    <h2>ToDo List</h2>
+                    <form onSubmit={handleAddItem}>
+                        <input
+                            type="text"
+                            value={newItem}
+                            onChange={(e) => setNewItem(e.target.value)}
+                            placeholder="Add a new task..."
+                        />
+                        <button type="submit">Add</button>
+                    </form>
+                    <ul>
+                        {items.map((item, index) => (
+                            <li key={index} className={`todo-item ${item.completed ? "completed" : ""}`}>
+                                <span onClick={() => handleToggleComplete(index)}>
+                                    {item.text}
+                                </span>
+                                <button onClick={() => handleDeleteItem(index)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        }
+
+        const ReactRoot = ReactDOM.createRoot(document.getElementById("root"));
+        ReactRoot.render(<ToDoList />);
+    </script>
+</body>
+</html>
